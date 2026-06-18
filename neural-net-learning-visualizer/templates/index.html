@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neural Net Learning Visualizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar">
+        <div>
+          <h1>Neural Net Learning Visualizer</h1>
+          <p>Watch a real NumPy MLP update weights, biases, gradients, activations, loss, and its decision boundary.</p>
+        </div>
+        <div class="stats">
+          <span>Step <strong id="step">0</strong></span>
+          <span>Loss <strong id="loss">0.000</strong></span>
+          <span>Accuracy <strong id="accuracy">0%</strong></span>
+        </div>
+      </section>
+
+      <section class="controls">
+        <label>Dataset
+          <select id="dataset">
+            <option value="moons">Two moons</option>
+            <option value="xor">XOR</option>
+            <option value="spiral">Spiral</option>
+          </select>
+        </label>
+        <label>Architecture
+          <select id="architecture">
+            <option value="6,4">2-6-4-1</option>
+            <option value="8">2-8-1</option>
+            <option value="8,6,4">2-8-6-4-1</option>
+            <option value="3">2-3-1</option>
+          </select>
+        </label>
+        <label>Learning rate
+          <input id="learningRate" type="range" min="0.01" max="0.3" step="0.01" value="0.08">
+          <output id="learningRateLabel">0.08</output>
+        </label>
+        <label>Seed
+          <input id="seed" type="number" min="1" max="999" value="7">
+        </label>
+        <button id="stepOnce">Step</button>
+        <button id="runToggle">Run</button>
+        <button id="reset">Reset</button>
+      </section>
+
+      <section class="training-description">
+        <div>
+          <h2>What the Model Is Trained On</h2>
+          <p id="datasetDescription">
+            The model trains on a two-dimensional toy classification dataset. Each dot is one training example with two input values, x1 and x2, and a target class of blue or red.
+          </p>
+        </div>
+        <div class="description-grid">
+          <div>
+            <strong>Input</strong>
+            <span>Each sample is a point: [x1, x2]. The network only sees these two numbers, not the drawing.</span>
+          </div>
+          <div>
+            <strong>Target</strong>
+            <span>The correct answer is class 0 or class 1. Blue and red points show those labels.</span>
+          </div>
+          <div>
+            <strong>Goal</strong>
+            <span>Learn a curved decision boundary that gives high probability to the right class for new points.</span>
+          </div>
+          <div>
+            <strong>Training</strong>
+            <span>Backpropagation reduces binary cross-entropy loss by updating every weight and bias with gradient descent.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel boundary-panel">
+          <h2>Decision Boundary</h2>
+          <canvas id="boundary" width="620" height="520"></canvas>
+        </article>
+        <article class="panel">
+          <h2>Network Parameters</h2>
+          <canvas id="network" width="620" height="520"></canvas>
+        </article>
+        <article class="panel">
+          <h2>Loss and Accuracy</h2>
+          <canvas id="history" width="620" height="260"></canvas>
+        </article>
+        <article class="panel">
+          <h2>Weights, Biases, Gradients</h2>
+          <div id="parameters" class="parameters"></div>
+        </article>
+      </section>
+    </main>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
